@@ -1,0 +1,16 @@
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+.container-fluid,
+.row {
+  min-height: calc(100vh - 56px); /* navbar height */
+}
+
+.sidebar {
+  min-height: calc(100vh - 56px);
+  background: #0f172a;
+}

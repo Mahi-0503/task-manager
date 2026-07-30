@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import API from "../api/axios";
 import Layout from "../components/Layout";
 import {
   FiFolder,
@@ -20,16 +20,7 @@ function Projects() {
   }, []);
 
   const fetchProjects = async () => {
-    const token = localStorage.getItem("token");
-
-    const res = await axios.get(
-      "http://localhost:5000/api/projects",
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const res = await API.get("/projects");
 
     setProjects(res.data);
   };
@@ -37,20 +28,10 @@ function Projects() {
   const addProject = async (e) => {
     e.preventDefault();
 
-    const token = localStorage.getItem("token");
-
-    await axios.post(
-      "http://localhost:5000/api/projects",
-      {
-        name,
-        description,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    await API.post("/projects", {
+    name,
+    description,
+});
 
     setName("");
     setDescription("");
@@ -59,20 +40,10 @@ function Projects() {
   };
 
   const updateProject = async () => {
-    const token = localStorage.getItem("token");
-
-    await axios.put(
-      `http://localhost:5000/api/projects/${editingId}`,
-      {
-        name,
-        description,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    await API.put(`/projects/${editingId}`, {
+    name,
+    description,
+});
 
     setEditingId(null);
     setName("");
@@ -82,16 +53,7 @@ function Projects() {
   };
 
   const deleteProject = async (id) => {
-    const token = localStorage.getItem("token");
-
-    await axios.delete(
-      `http://localhost:5000/api/projects/${id}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    await API.delete(`/projects/${id}`);
 
     fetchProjects();
   };

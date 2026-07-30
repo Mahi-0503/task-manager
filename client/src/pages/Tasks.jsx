@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import API from "../api/axios";
 import Layout from "../components/Layout";
 import {
   FiSearch,
@@ -36,27 +36,13 @@ function Tasks() {
   const token = localStorage.getItem("token");
 
   const fetchProjects = async () => {
-    const res = await axios.get(
-      "http://localhost:5000/api/projects",
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const res = await API.get("/projects");
 
     setProjects(res.data);
   };
 
   const fetchTasks = async () => {
-    const res = await axios.get(
-      "http://localhost:5000/api/tasks",
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const res = await API.get("/tasks");
 
     setTasks(res.data);
   };
@@ -65,37 +51,21 @@ function Tasks() {
     e.preventDefault();
 
     if (editingId) {
-      await axios.put(
-        `http://localhost:5000/api/tasks/${editingId}`,
-        {
-          title,
-          description,
-          priority,
-          due_date: dueDate,
-          project_id: projectId,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      await API.put(`/tasks/${editingId}`, {
+        title,
+        description,
+        priority,
+        due_date: dueDate,
+        project_id: projectId,
+      });
     } else {
-      await axios.post(
-        "http://localhost:5000/api/tasks",
-        {
-          title,
-          description,
-          priority,
-          due_date: dueDate,
-          project_id: projectId,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      await API.post("/tasks", {
+        title,
+        description,
+        priority,
+        due_date: dueDate,
+        project_id: projectId,
+      });
     }
 
     setTitle("");
@@ -121,30 +91,15 @@ function Tasks() {
   const deleteTask = async (id) => {
     if (!window.confirm("Delete this task?")) return;
 
-    await axios.delete(
-      `http://localhost:5000/api/tasks/${id}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    await API.delete(`/tasks/${id}`);
 
     fetchTasks();
   };
 
   const updateStatus = async (id, status) => {
-    await axios.patch(
-      `http://localhost:5000/api/tasks/${id}/status`,
-      {
-        status,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    await API.put(`/tasks/${id}/status`, {
+      status,
+    });
 
     fetchTasks();
   };

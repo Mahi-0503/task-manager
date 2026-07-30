@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import API from "../api/axios";
 import Layout from "../components/Layout";
 import DashboardCard from "../components/DashboardCard";
 
@@ -43,16 +43,7 @@ function Dashboard() {
 
   const fetchStats = async () => {
     try {
-      const token = localStorage.getItem("token");
-
-      const res = await axios.get(
-        "http://localhost:5000/api/tasks/dashboard/stats",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const res = await API.get("/tasks/dashboard/stats");
 
       setStats(res.data);
     } catch (err) {

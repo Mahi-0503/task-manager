@@ -31,7 +31,7 @@ exports.createProject = async (req, res) => {
 exports.getProjects = async (req, res) => {
     try {
 
-        const projects = await getAllProjects(req);
+        const projects = await getAllProjects(req.user.id);
 
         res.json(projects);
 

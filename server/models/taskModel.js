@@ -6,20 +6,22 @@ const createTask = async (
     description,
     priority,
     status,
+    due_date,
     project_id,
     userId
 ) => {
 
     const result = await pool.query(
         `INSERT INTO tasks
-        (title,description,priority,status,project_id,user_id)
-        VALUES($1,$2,$3,$4,$5,$6)
+        (title,description,priority,status,due_date,project_id,user_id)
+        VALUES($1,$2,$3,$4,$5,$6,$7)
         RETURNING *`,
         [
             title,
             description,
             priority,
             status,
+            due_date,
             project_id,
             userId
         ]

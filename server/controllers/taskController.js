@@ -16,7 +16,7 @@ exports.createTask = async (req, res) => {
             priority,
             due_date,
             project_id,
-            assigned_to
+            status = "Todo"
         } = req.body;
 
         if (!title || !project_id) {
@@ -30,6 +30,7 @@ exports.createTask = async (req, res) => {
             description,
             priority,
             status,
+            due_date,
             project_id,
             req.user.id
         );
